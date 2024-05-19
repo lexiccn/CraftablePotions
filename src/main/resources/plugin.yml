@@ -1,0 +1,7 @@
+name: CraftablePotions
+version: 1.0
+main: dev.lexiccn.craftablepotions.CraftablePotions
+description: Craft potions with the ingredients and bottles
+author: lexiccn
+website: https://lexiccn.dev
+api-version: '1.20'
