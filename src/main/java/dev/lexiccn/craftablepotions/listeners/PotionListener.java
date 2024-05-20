@@ -3,22 +3,20 @@ package dev.lexiccn.craftablepotions.listeners;
 import dev.lexiccn.craftablepotions.CraftablePotions;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PotionListener implements Listener {
-
     @EventHandler
     public void onPreparePotionCraft(PrepareItemCraftEvent event) {
         CraftingInventory inventory = event.getInventory();
@@ -43,109 +41,102 @@ public class PotionListener implements Listener {
     public void onPotionCraft(CraftItemEvent event) {
         CraftingInventory inventory = event.getInventory();
         if (inventory.getResult() == null) return;
+
         ItemStack result = inventory.getResult();
         if (!result.hasItemMeta()) return;
         if (!(result.getItemMeta() instanceof PotionMeta)) return;
 
         int amount = result.getAmount();
+        int numPotions = amount - 1;
         if (amount == 1) return;
         result.setAmount(1);
 
-        if (event.isShiftClick() && amount == 3) {
-            List<ItemStack> bottles = new ArrayList<>();
-            int smallestBottlesAmount = 0;
+        HumanEntity clicker = event.getWhoClicked();
 
-            for (ItemStack item : inventory.getMatrix()) {
-                if (item == null) continue;
-                if (item.getType() != Material.GLASS_BOTTLE) continue;
+        List<ItemStack> bottles = new ArrayList<>();
 
-                if (smallestBottlesAmount == 0) smallestBottlesAmount = item.getAmount();
-                else if (smallestBottlesAmount < item.getAmount()) smallestBottlesAmount = item.getAmount();
+        int minBottles = 0;
+        int extraBottles = 0;
 
-                bottles.add(item);
+        for (ItemStack item : inventory.getMatrix()) {
+            if (item == null) continue;
+            if (item.getType() != Material.GLASS_BOTTLE) continue;
+
+            if (minBottles == 0) minBottles = item.getAmount();
+
+            if (item.getAmount() > minBottles) {
+                extraBottles++;
             }
 
-            int emptySlots = event.getWhoClicked().getInventory().getStorageContents().length;
-            for (ItemStack item : event.getWhoClicked().getInventory().getStorageContents()) {
+            if (item.getAmount() < minBottles) {
+                minBottles = item.getAmount();
+                extraBottles = bottles.size();
+            }
+
+            bottles.add(item);
+        }
+
+        if (bottles.isEmpty()) return;
+
+        if (event.isShiftClick()) {
+            int maxBottles = minBottles * bottles.size() + extraBottles;
+            int numCrafts = maxBottles / amount;
+            numPotions = maxBottles - (maxBottles % amount);
+
+            int emptySlots = clicker.getInventory().getStorageContents().length;
+            for (ItemStack item : clicker.getInventory().getStorageContents()) {
                 if (item == null) continue;
                 if (item.getType().isEmpty()) continue;
                 emptySlots--;
             }
 
             //Number of crafts that can partially fit in inventory (all fully except maximum of one)
-            int craftAmount = emptySlots / 3;
-            if (emptySlots % 3 > 0) craftAmount++;
-
-            //Minimum number of full crafts possible without depleting a stack
-            craftAmount = Math.min((smallestBottlesAmount * bottles.size()) / 3, craftAmount);
+            numCrafts = Math.min((int) Math.ceil((double) emptySlots / amount), numCrafts);
 
             List<ItemStack> matrix = new ArrayList<>();
 
             for (ItemStack item : inventory.getMatrix()) {
                 if (item == null) continue;
+
                 if (item.getType() == Material.GLASS_BOTTLE) continue;
-                craftAmount = Math.min(item.getAmount(), craftAmount);
+
+                numCrafts = Math.min(numCrafts, item.getAmount());
+
                 matrix.add(item);
             }
 
             event.setResult(Event.Result.DENY);
 
-            //Remove one ingredient per craft
-            int finalCraftAmount = craftAmount;
-            int totalPotions = finalCraftAmount * 3;
+            final int finalNumCrafts = numCrafts;
+            matrix.forEach(itemStack -> itemStack.subtract(finalNumCrafts));
 
-            //Add directly to inventory
-            for (int i = 0; i < totalPotions; i++) {
-                event.getWhoClicked().getInventory().addItem(result.clone());
-            }
+            if (event.getRecipe() instanceof CraftingRecipe recipe) clicker.discoverRecipe(recipe.getKey());
 
-            matrix.forEach(itemStack -> itemStack.subtract(finalCraftAmount));
-
-            int bottlesPerStack = totalPotions / bottles.size();
-            int remainderBottles = totalPotions % bottles.size();
-            for (ItemStack bottle : bottles) {
-                bottle.subtract(bottlesPerStack);
-                if (remainderBottles > 0 && bottle.getAmount() >= remainderBottles) {
-                    bottle.subtract(remainderBottles);
-                    remainderBottles = 0;
-                }
-            }
-
-
-            //Refreshes the result
-            Bukkit.getScheduler().runTask(CraftablePotions.getInstance(), () -> {
-                inventory.setMatrix(inventory.getMatrix());
-            });
-
-            //Discovers the recipe if player does not have it
-            if (!(event.getRecipe() instanceof CraftingRecipe recipe)) return;
-            if (event.getWhoClicked().hasDiscoveredRecipe(recipe.getKey())) return;
-            event.getWhoClicked().discoverRecipe(recipe.getKey());
-
-            return;
+            //Refreshes result despite cancelled event
+            inventory.setMatrix(inventory.getMatrix());
         }
 
-        List<ItemStack> bottles = new ArrayList<>();
+        int numBottles = numPotions / bottles.size();
+        int remainderBottles = numPotions % bottles.size();
 
-        for (ItemStack item : inventory.getMatrix()) {
-            if (item == null) continue;
-            if (item.getType() != Material.GLASS_BOTTLE) continue;
-
-            bottles.add(item);
-        }
-
-        int remainder = amount % bottles.size();
         for (ItemStack bottle : bottles) {
-            if (bottle.getAmount() >= remainder) {
-                bottle.subtract(remainder);
-                break;
+            if (remainderBottles > 0 && bottle.getAmount() >= 1) {
+                bottle.subtract();
+                remainderBottles--;
             }
+            bottle.subtract(numBottles);
         }
 
-        //TODO: one tick later to prevent replacing the actual result (e.g by pressing 1)
-        for (int i = 1; i < amount; i++) {
-            event.getWhoClicked().getInventory().addItem(result.clone());
+        ItemStack[] potions = new ItemStack[numPotions];
+
+        for (int i = 0; i < numPotions; i++) {
+            potions[i] = result.clone();
         }
+
+        Bukkit.getScheduler().runTask(CraftablePotions.getInstance(), () -> {
+            Map<Integer, ItemStack> droppedItems = clicker.getInventory().addItem(potions);
+            droppedItems.values().forEach(itemStack -> clicker.getWorld().dropItem(clicker.getLocation(), itemStack));
+        });
     }
 
     public static void registerEvents(CraftablePotions plugin) {
