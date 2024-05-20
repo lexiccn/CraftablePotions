@@ -75,15 +75,22 @@ public enum PotionRecipe {
     private void createRecipe(CraftablePotions plugin, List<Material> ingredients, boolean upgrade, boolean extend, Material type) {
         ingredients = new ArrayList<>(ingredients);
 
-        String prefix = "";
+        String prefix;
+        String group;
 
         if (upgrade) {
-            prefix+="upgraded_";
+            prefix = "upgraded_";
+            group = this.upgraded.getKey().getKey();
             ingredients.add(Material.GLOWSTONE_DUST);
         }
-        if (extend) {
-            prefix+="extended_";
+        else if (extend) {
+            prefix = "extended_";
+            group = this.extended.getKey().getKey();
             ingredients.add(Material.REDSTONE);
+        }
+        else {
+            prefix = "";
+            group = this.type.getKey().getKey();
         }
 
         switch (type) {
@@ -110,19 +117,19 @@ public enum PotionRecipe {
 
         ingredients.add(0, Material.GLASS_BOTTLE);
         ShapelessRecipe singleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix+this.id), this.getItemStack(1, upgrade, extend, type));
-        singleBottle.setGroup(prefix + this.id);
+        singleBottle.setGroup(prefix + group);
         ingredients.forEach(singleBottle::addIngredient);
         Bukkit.addRecipe(singleBottle);
 
         ingredients.add(0, Material.GLASS_BOTTLE);
         ShapelessRecipe doubleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix+"double_"+this.id), this.getItemStack(2, upgrade, extend, type));
-        doubleBottle.setGroup(prefix + this.id);
+        doubleBottle.setGroup(prefix + group);
         ingredients.forEach(doubleBottle::addIngredient);
         Bukkit.addRecipe(doubleBottle);
 
         ingredients.add(0, Material.GLASS_BOTTLE);
         ShapelessRecipe tripleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix+"triple_"+this.id), this.getItemStack(3, upgrade, extend, type));
-        tripleBottle.setGroup(prefix + this.id);
+        tripleBottle.setGroup(prefix + group);
         ingredients.forEach(tripleBottle::addIngredient);
         Bukkit.addRecipe(tripleBottle);
     }
