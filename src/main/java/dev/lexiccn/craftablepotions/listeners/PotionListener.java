@@ -142,9 +142,7 @@ public class PotionListener implements Listener {
             potions[i] = result.clone();
         }
 
-        //Only necessary if event is cancelled to "refresh" result
-        //Run for both as matrix is "locked" after this is run
-        inventory.setMatrix(inventory.getMatrix());
+        if (event.isCancelled()) inventory.setMatrix(inventory.getMatrix());
 
         Bukkit.getScheduler().runTask(CraftablePotions.getInstance(), () -> {
             Map<Integer, ItemStack> droppedItems = clicker.getInventory().addItem(potions);
