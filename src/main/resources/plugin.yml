@@ -5,3 +5,21 @@ description: Craft potions with the ingredients and bottles
 author: lexiccn
 website: https://lexiccn.dev
 api-version: '1.20'
+commands:
+  craftablepotions:
+    description: Commands for CraftablePotions
+    usage: /craftablepotions <reload>
+    permission: dev.lexiccn.craftablepotions.command
+permissions:
+  dev.lexiccn.craftablepotions.command.*:
+    description: Allows use of the /craftablepotions command and all subcommands
+    default: op
+    children:
+      dev.lexiccn.craftablepotions.command: true
+      dev.lexiccn.craftablepotions.command.reload: true
+  dev.lexiccn.craftablepotions.command:
+    description: Allows use of the /craftablepotions command
+    default: op
+  dev.lexiccn.craftablepotions.command.reload:
+    description: Allows use of /craftablepotions reload subcommand
+    default: op
