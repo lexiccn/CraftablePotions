@@ -1,5 +1,6 @@
 package dev.lexiccn.craftablepotions;
 
+import dev.lexiccn.craftablepotions.commands.CraftablePotionsCommand;
 import dev.lexiccn.craftablepotions.objects.PotionRecipe;
 import dev.lexiccn.craftablepotions.listeners.PotionListener;
 import dev.lexiccn.craftablepotions.settings.PotionSettings;
@@ -16,6 +17,8 @@ public class CraftablePotions extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
         saveDefaultConfig();
+        this.getCommand("craftablepotions").setExecutor(new CraftablePotionsCommand());
+
         PotionSettings.reloadConfig(this);
         PotionRecipe.registerRecipes(this);
         PotionListener.registerEvents(this);
