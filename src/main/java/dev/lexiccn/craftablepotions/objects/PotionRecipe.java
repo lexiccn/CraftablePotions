@@ -10,8 +10,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public enum PotionRecipe {
 
@@ -42,12 +41,46 @@ public enum PotionRecipe {
     CORRUPT_STRENGTH("strength_corrupt", STRENGTH, Material.FERMENTED_SPIDER_EYE, PotionType.WEAKNESS, null, PotionType.LONG_WEAKNESS);
 
 
+    private static final List<NamespacedKey> RECIPES = new ArrayList<>();
+    private static final Map<NamespacedKey, String> GROUPS = new HashMap<>();
+    private static final Map<String, List<NamespacedKey>> GROUPED_RECIPES = new HashMap<>();
+
     private final String id;
     private final PotionRecipe precursor;
     private final Material ingredient;
     private final PotionType type;
     private final PotionType upgraded;
     private final PotionType extended;
+
+    public static void registerRecipes(CraftablePotions plugin) {
+        for (PotionRecipe r : PotionRecipe.values()) {
+            r.registerPotionRecipes(plugin);
+        }
+    }
+
+    public static void unregisterRecipes() {
+        RECIPES.forEach(Bukkit::removeRecipe);
+
+        RECIPES.clear();
+        GROUPS.clear();
+        GROUPED_RECIPES.clear();
+    }
+
+    public static void reloadRecipes(CraftablePotions plugin) {
+        unregisterRecipes();
+        registerRecipes(plugin);
+        Bukkit.updateRecipes();
+    }
+
+    public static List<NamespacedKey> getAllRecipes() {
+        return Collections.unmodifiableList(RECIPES);
+    }
+
+    public static List<NamespacedKey> getGroupedRecipes(NamespacedKey key) {
+        String group = GROUPS.get(key);
+
+        return Collections.unmodifiableList(GROUPED_RECIPES.get(group));
+    }
 
     PotionRecipe(String id, PotionRecipe precursor, Material ingredient, PotionType type, PotionType upgraded, PotionType extended) {
         this.id = id;
@@ -75,38 +108,40 @@ public enum PotionRecipe {
     private void createRecipe(CraftablePotions plugin, List<Material> ingredients, boolean upgrade, boolean extend, Material type) {
         ingredients = new ArrayList<>(ingredients);
 
-        String prefix;
-        String group;
+        String prefix = this.id;
+        String group = PotionSettings.groupRecipesByType() ? this.type.getKey().getKey() + "_" : "";
 
         if (upgrade) {
-            prefix = "upgraded_";
-            group = this.upgraded.getKey().getKey();
+            prefix += "upgraded_";
+            group += (PotionSettings.groupRecipesByUpgradeType() ? "upgraded_" : "");
             ingredients.add(Material.GLOWSTONE_DUST);
         }
         else if (extend) {
-            prefix = "extended_";
-            group = this.extended.getKey().getKey();
+            prefix += "extended_";
+            group += (PotionSettings.groupRecipesByExtendType() ? "extended_" : "");
             ingredients.add(Material.REDSTONE);
         }
         else {
-            prefix = "";
-            group = this.type.getKey().getKey();
+            group += (PotionSettings.groupRecipesByBaseType() ? "base_" : "");
         }
 
         switch (type) {
             case POTION: {
                 if (!PotionSettings.isEnabledPotion(this.id, upgrade, extend)) return;
+                group += (PotionSettings.groupRecipesByPotion()) ? "potion_" : "";
                 break;
             }
             case SPLASH_POTION: {
                 if (!PotionSettings.isEnabledSplash(this.id, upgrade, extend)) return;
                 prefix+="splash_";
+                group += (PotionSettings.groupRecipesBySplash()) ? "splash_" : "";
                 ingredients.add(Material.GUNPOWDER);
                 break;
             }
             case LINGERING_POTION: {
                 if (!PotionSettings.isEnabledLingering(this.id, upgrade, extend)) return;
                 prefix+="lingering_";
+                group += (PotionSettings.groupRecipesByLingering()) ? "lingering_" : "";
                 ingredients.add(Material.DRAGON_BREATH);
                 break;
             }
@@ -115,23 +150,29 @@ public enum PotionRecipe {
             }
         }
 
-        ingredients.add(0, Material.GLASS_BOTTLE);
-        ShapelessRecipe singleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix+this.id), this.getItemStack(1, upgrade, extend, type));
-        singleBottle.setGroup(prefix + group);
-        ingredients.forEach(singleBottle::addIngredient);
-        Bukkit.addRecipe(singleBottle);
+        if (PotionSettings.isEnabledQuantity(1)) {
+            ingredients.add(0, Material.GLASS_BOTTLE);
+            ShapelessRecipe singleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix + this.id), this.getItemStack(1, upgrade, extend, type));
+            singleBottle.setGroup(prefix + group);
+            ingredients.forEach(singleBottle::addIngredient);
+            Bukkit.addRecipe(singleBottle);
+        }
 
-        ingredients.add(0, Material.GLASS_BOTTLE);
-        ShapelessRecipe doubleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix+"double_"+this.id), this.getItemStack(2, upgrade, extend, type));
-        doubleBottle.setGroup(prefix + group);
-        ingredients.forEach(doubleBottle::addIngredient);
-        Bukkit.addRecipe(doubleBottle);
+        if (PotionSettings.isEnabledQuantity(2)) {
+            ingredients.add(0, Material.GLASS_BOTTLE);
+            ShapelessRecipe doubleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix + "double_" + this.id), this.getItemStack(2, upgrade, extend, type));
+            doubleBottle.setGroup(prefix + group);
+            ingredients.forEach(doubleBottle::addIngredient);
+            Bukkit.addRecipe(doubleBottle);
+        }
 
-        ingredients.add(0, Material.GLASS_BOTTLE);
-        ShapelessRecipe tripleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix+"triple_"+this.id), this.getItemStack(3, upgrade, extend, type));
-        tripleBottle.setGroup(prefix + group);
-        ingredients.forEach(tripleBottle::addIngredient);
-        Bukkit.addRecipe(tripleBottle);
+        if (PotionSettings.isEnabledQuantity(3)) {
+            ingredients.add(0, Material.GLASS_BOTTLE);
+            ShapelessRecipe tripleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix + "triple_" + this.id), this.getItemStack(3, upgrade, extend, type));
+            tripleBottle.setGroup(prefix + group);
+            ingredients.forEach(tripleBottle::addIngredient);
+            Bukkit.addRecipe(tripleBottle);
+        }
     }
 
     private void registerPotionRecipes(CraftablePotions plugin) {
@@ -161,11 +202,5 @@ public enum PotionRecipe {
         createRecipe(plugin, ingredients, false, false, Material.LINGERING_POTION);
         if (canUpgrade) createRecipe(plugin, ingredients, true, false, Material.LINGERING_POTION);
         if (canExtend) createRecipe(plugin, ingredients, false, true, Material.LINGERING_POTION);
-    }
-
-    public static void registerRecipes(CraftablePotions plugin) {
-        for (PotionRecipe r : PotionRecipe.values()) {
-            r.registerPotionRecipes(plugin);
-        }
     }
 }
