@@ -77,7 +77,11 @@ public enum PotionRecipe {
     }
 
     public static List<NamespacedKey> getGroupedRecipes(NamespacedKey key) {
+        if (!GROUPS.containsKey(key)) return List.of();
+
         String group = GROUPS.get(key);
+
+        if (!GROUPED_RECIPES.containsKey(group)) return List.of();
 
         return Collections.unmodifiableList(GROUPED_RECIPES.get(group));
     }
