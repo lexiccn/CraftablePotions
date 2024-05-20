@@ -94,7 +94,6 @@ public class PotionListener implements Listener {
         if (event.isShiftClick()) {
             int maxBottles = minBottles * bottles.size() + extraBottles;
             int numCrafts = maxBottles / amount;
-            numPotions = maxBottles - (maxBottles % amount);
 
             int emptySlots = clicker.getInventory().getStorageContents().length;
             for (ItemStack item : clicker.getInventory().getStorageContents()) {
@@ -122,6 +121,8 @@ public class PotionListener implements Listener {
 
             final int finalNumCrafts = numCrafts;
             matrix.forEach(itemStack -> itemStack.subtract(finalNumCrafts));
+
+            numPotions = numCrafts * amount;
 
             //Refreshes result despite cancelled event
             inventory.setMatrix(inventory.getMatrix());
