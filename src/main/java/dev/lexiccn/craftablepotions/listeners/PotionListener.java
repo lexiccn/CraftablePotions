@@ -123,8 +123,6 @@ public class PotionListener implements Listener {
             final int finalNumCrafts = numCrafts;
             matrix.forEach(itemStack -> itemStack.subtract(finalNumCrafts));
 
-            if (event.getRecipe() instanceof CraftingRecipe recipe) clicker.discoverRecipe(recipe.getKey());
-
             //Refreshes result despite cancelled event
             inventory.setMatrix(inventory.getMatrix());
         }
@@ -150,6 +148,11 @@ public class PotionListener implements Listener {
             Map<Integer, ItemStack> droppedItems = clicker.getInventory().addItem(potions);
             droppedItems.values().forEach(itemStack -> clicker.getWorld().dropItem(clicker.getLocation(), itemStack));
         });
+
+        if (event.getRecipe() instanceof CraftingRecipe recipe) {
+            if (PotionSettings.revealRecipeGroups()) clicker.discoverRecipes(PotionRecipe.getGroupedRecipes(recipe.getKey()));
+            else clicker.discoverRecipe(recipe.getKey());
+        }
     }
 
     public static void registerEvents(CraftablePotions plugin) {
