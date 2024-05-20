@@ -122,7 +122,7 @@ public enum PotionRecipe {
         ingredients = new ArrayList<>(ingredients);
 
         String prefix = this.id;
-        String group = PotionSettings.groupRecipesByType() ? this.type.getKey().getKey() + "_" : "";
+        String group = PotionSettings.groupRecipesByType() ? this.type.getKey().getKey() + "_" : "craftablepotions_";
 
         if (upgrade) {
             prefix += "upgraded_";
