@@ -5,6 +5,7 @@ import dev.lexiccn.craftablepotions.settings.PotionSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -109,6 +110,14 @@ public enum PotionRecipe {
         return item;
     }
 
+    private void addRecipe(CraftingRecipe recipe) {
+        RECIPES.add(recipe.getKey());
+        GROUPS.put(recipe.getKey(), recipe.getGroup());
+        if (GROUPED_RECIPES.containsKey(recipe.getGroup())) GROUPED_RECIPES.put(recipe.getGroup(), new ArrayList<>());
+        GROUPED_RECIPES.get(recipe.getGroup()).add(recipe.getKey());
+        Bukkit.addRecipe(recipe);
+    }
+
     private void createRecipe(CraftablePotions plugin, List<Material> ingredients, boolean upgrade, boolean extend, Material type) {
         ingredients = new ArrayList<>(ingredients);
 
@@ -159,7 +168,7 @@ public enum PotionRecipe {
             ShapelessRecipe singleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix + this.id), this.getItemStack(1, upgrade, extend, type));
             singleBottle.setGroup(prefix + group);
             ingredients.forEach(singleBottle::addIngredient);
-            Bukkit.addRecipe(singleBottle);
+            addRecipe(singleBottle);
         }
 
         if (PotionSettings.isEnabledQuantity(2)) {
@@ -167,7 +176,7 @@ public enum PotionRecipe {
             ShapelessRecipe doubleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix + "double_" + this.id), this.getItemStack(2, upgrade, extend, type));
             doubleBottle.setGroup(prefix + group);
             ingredients.forEach(doubleBottle::addIngredient);
-            Bukkit.addRecipe(doubleBottle);
+            addRecipe(doubleBottle);
         }
 
         if (PotionSettings.isEnabledQuantity(3)) {
@@ -175,7 +184,7 @@ public enum PotionRecipe {
             ShapelessRecipe tripleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix + "triple_" + this.id), this.getItemStack(3, upgrade, extend, type));
             tripleBottle.setGroup(prefix + group);
             ingredients.forEach(tripleBottle::addIngredient);
-            Bukkit.addRecipe(tripleBottle);
+            addRecipe(tripleBottle);
         }
     }
 
