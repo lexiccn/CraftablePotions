@@ -113,7 +113,7 @@ public enum PotionRecipe {
     private void addRecipe(CraftingRecipe recipe) {
         RECIPES.add(recipe.getKey());
         GROUPS.put(recipe.getKey(), recipe.getGroup());
-        if (GROUPED_RECIPES.containsKey(recipe.getGroup())) GROUPED_RECIPES.put(recipe.getGroup(), new ArrayList<>());
+        if (!GROUPED_RECIPES.containsKey(recipe.getGroup())) GROUPED_RECIPES.put(recipe.getGroup(), new ArrayList<>());
         GROUPED_RECIPES.get(recipe.getGroup()).add(recipe.getKey());
         Bukkit.addRecipe(recipe);
     }
