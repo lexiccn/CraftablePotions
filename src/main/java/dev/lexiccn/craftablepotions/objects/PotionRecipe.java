@@ -166,7 +166,7 @@ public enum PotionRecipe {
         if (PotionSettings.isEnabledQuantity(1)) {
             ingredients.add(0, Material.GLASS_BOTTLE);
             ShapelessRecipe singleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix + this.id), this.getItemStack(1, upgrade, extend, type));
-            singleBottle.setGroup(prefix + group);
+            singleBottle.setGroup(group);
             ingredients.forEach(singleBottle::addIngredient);
             addRecipe(singleBottle);
         }
@@ -174,7 +174,7 @@ public enum PotionRecipe {
         if (PotionSettings.isEnabledQuantity(2)) {
             ingredients.add(0, Material.GLASS_BOTTLE);
             ShapelessRecipe doubleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix + "double_" + this.id), this.getItemStack(2, upgrade, extend, type));
-            doubleBottle.setGroup(prefix + group);
+            doubleBottle.setGroup(group);
             ingredients.forEach(doubleBottle::addIngredient);
             addRecipe(doubleBottle);
         }
@@ -182,7 +182,7 @@ public enum PotionRecipe {
         if (PotionSettings.isEnabledQuantity(3)) {
             ingredients.add(0, Material.GLASS_BOTTLE);
             ShapelessRecipe tripleBottle = new ShapelessRecipe(new NamespacedKey(plugin, prefix + "triple_" + this.id), this.getItemStack(3, upgrade, extend, type));
-            tripleBottle.setGroup(prefix + group);
+            tripleBottle.setGroup(group);
             ingredients.forEach(tripleBottle::addIngredient);
             addRecipe(tripleBottle);
         }
