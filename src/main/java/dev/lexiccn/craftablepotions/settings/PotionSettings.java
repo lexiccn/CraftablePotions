@@ -17,6 +17,7 @@ public class PotionSettings {
     private static FileConfiguration config;
 
     public static void reloadConfig(CraftablePotions plugin) {
+        plugin.reloadConfig();
         config = plugin.getConfig();
     }
 
