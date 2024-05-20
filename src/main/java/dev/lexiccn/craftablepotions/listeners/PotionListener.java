@@ -1,15 +1,18 @@
 package dev.lexiccn.craftablepotions.listeners;
 
 import dev.lexiccn.craftablepotions.CraftablePotions;
+import dev.lexiccn.craftablepotions.objects.PotionRecipe;
 import dev.lexiccn.craftablepotions.settings.PotionSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.CraftingRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +21,13 @@ import org.bukkit.inventory.meta.PotionMeta;
 import java.util.*;
 
 public class PotionListener implements Listener {
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        if (PotionSettings.revealRecipesOnJoin()) {
+            event.getPlayer().discoverRecipes(PotionRecipe.getAllRecipes());
+        }
+    }
+
     @EventHandler
     public void onPreparePotionCraft(PrepareItemCraftEvent event) {
         if (!PotionSettings.isEnabledDynamicQuantity()) return;
