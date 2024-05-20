@@ -16,13 +16,13 @@ settings:
       dynamic: true
       # Single Recipe
       # Set to true to enable Potion recipe with one stack of Glass Bottles
-      single: true
+      1: true
       # Double Recipe
       # Set to true to enable Potion recipe with two stacks of Glass Bottles
-      double: true
+      2: true
       # Triple Recipe
       # Set to true to enable Potion recipe with three stacks of Glass Bottles
-      triple: true
+      3: true
     group:
       # Potion Type
       # Set to true to group by potion type (e.g all recipes for Potion of Harming are grouped)
