@@ -1,6 +1,7 @@
 package dev.lexiccn.craftablepotions.listeners;
 
 import dev.lexiccn.craftablepotions.CraftablePotions;
+import dev.lexiccn.craftablepotions.settings.PotionSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -19,6 +20,8 @@ import java.util.*;
 public class PotionListener implements Listener {
     @EventHandler
     public void onPreparePotionCraft(PrepareItemCraftEvent event) {
+        if (!PotionSettings.isEnabledDynamicQuantity()) return;
+
         CraftingInventory inventory = event.getInventory();
         if (inventory.getResult() == null) return;
         if (!inventory.getResult().hasItemMeta()) return;
