@@ -12,11 +12,11 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class CraftablePotionsCommand implements CommandExecutor {
-    private static final Component PREFIX = Component.text("[").color(NamedTextColor.DARK_PURPLE)
-            .append(Component.text("CraftablePotions").color(NamedTextColor.LIGHT_PURPLE))
-            .append(Component.text("] ").color(NamedTextColor.DARK_PURPLE));
+    private static final Component PREFIX = Component.text("[").color(NamedTextColor.LIGHT_PURPLE)
+            .append(Component.text("CraftablePotions").color(NamedTextColor.DARK_PURPLE))
+            .append(Component.text("] ").color(NamedTextColor.LIGHT_PURPLE));
 
-    private static final TextColor COLOR = NamedTextColor.LIGHT_PURPLE;
+    private static final TextColor COLOR = NamedTextColor.DARK_PURPLE;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
