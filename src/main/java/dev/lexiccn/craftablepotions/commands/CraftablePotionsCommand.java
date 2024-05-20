@@ -58,8 +58,8 @@ public class CraftablePotionsCommand implements CommandExecutor {
             return true;
         }
 
-        PotionRecipe.reloadRecipes(CraftablePotions.getInstance());
         PotionSettings.reloadConfig(CraftablePotions.getInstance());
+        PotionRecipe.reloadRecipes(CraftablePotions.getInstance());
 
         sendFormattedMessage(sender, "Configuration file successfully reloaded.");
 
