@@ -123,9 +123,6 @@ public class PotionListener implements Listener {
             matrix.forEach(itemStack -> itemStack.subtract(finalNumCrafts));
 
             numPotions = numCrafts * amount;
-
-            //Refreshes result despite cancelled event
-            inventory.setMatrix(inventory.getMatrix());
         }
 
         int numBottles = numPotions / bottles.size();
@@ -144,6 +141,10 @@ public class PotionListener implements Listener {
         for (int i = 0; i < numPotions; i++) {
             potions[i] = result.clone();
         }
+
+        //Only necessary if event is cancelled to "refresh" result
+        //Run for both as matrix is "locked" after this is run
+        inventory.setMatrix(inventory.getMatrix());
 
         Bukkit.getScheduler().runTask(CraftablePotions.getInstance(), () -> {
             Map<Integer, ItemStack> droppedItems = clicker.getInventory().addItem(potions);
