@@ -16,7 +16,7 @@ public class PotionSettings {
     private static final String EXTEND = ".extend";
     private static FileConfiguration config;
 
-    public static void registerConfig(CraftablePotions plugin) {
+    public static void reloadConfig(CraftablePotions plugin) {
         config = plugin.getConfig();
     }
 

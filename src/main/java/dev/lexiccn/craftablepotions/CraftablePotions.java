@@ -16,7 +16,7 @@ public class CraftablePotions extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
         saveDefaultConfig();
-        PotionSettings.registerConfig(this);
+        PotionSettings.reloadConfig(this);
         PotionRecipe.registerRecipes(this);
         PotionListener.registerEvents(this);
     }
