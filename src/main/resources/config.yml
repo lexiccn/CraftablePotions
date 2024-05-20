@@ -1,57 +1,56 @@
-settings:
-  recipes:
-    reveal:
-      # Reveal Recipes on Join
-      # Set to true to reveal all potion recipes to a player joining the server
-      # Set to false to reveal potion recipes when they are crafted
-      join: false
-      # Reveal Recipe Group
-      # Set to true to reveal all grouped recipes when a recipe is crafted (e.g 1/2/3 bottle stacks recipes)
-      # Set to false to reveal only the recipe crafted
-      group: false
-    quantity:
-      # Dynamic Quantity
-      # Set to true to create potions based on the number of bottles, not the number of bottle stacks in the grid
-      # Set to false to create potions based on the number of bottle stacks
-      dynamic: true
-      # Single Recipe
-      # Set to true to enable Potion recipe with one stack of Glass Bottles
-      1: true
-      # Double Recipe
-      # Set to true to enable Potion recipe with two stacks of Glass Bottles
-      2: true
-      # Triple Recipe
-      # Set to true to enable Potion recipe with three stacks of Glass Bottles
-      3: true
-    group:
-      # Potion Type
-      # Set to true to group by potion type (e.g all recipes for Potion of Harming are grouped)
-      # Set to false to group all potions together (e.g all recipes for Potion of Healing, Harming, etc. are grouped)
-      type: true
-      # Potion
-      # Set to true to separate Potion recipes from other recipes in the recipe book (e.g Splash, Lingering)
-      # Set to false to not separate Potion (if only one is false, same function as if all are true)
-      potion: true
-      # Splash Potion
-      # Set to true to separate Splash Potion recipes from other recipes in the recipe book
-      # Set to false to not separate Splash Potion
-      splash: true
-      # Lingering Potion
-      # Set to true to separate Lingering Potion recipes from other recipes in the recipe book
-      # Set to false to not separate Lingering Potion
-      lingering: true
-      # Base Potion Type
-      # Set to true to separate Base Potion Type from other types in the recipe book (e.g Healing separate from Healing II)
-      # Set to false to not separate Base Potion Type (if only one is false, same function as if all are true)
-      base: true
-      # Upgraded Potion Type
-      # Set to true to separate Upgraded Potion Type from other types in the recipe book
-      # Set to false to not separate Upgraded Potion Type
-      upgrade: true
-      # Extended Potion Type
-      # Set to true to separate Extended Potion Type from other types in the recipe book
-      # Set to false to not separate Extended Potion Type
-      extend: true
+recipes:
+  reveal:
+    # Reveal Recipes on Join
+    # Set to true to reveal all potion recipes to a player joining the server
+    # Set to false to reveal potion recipes when they are crafted
+    join: false
+    # Reveal Recipe Group
+    # Set to true to reveal all grouped recipes when a recipe is crafted (e.g 1/2/3 bottle stacks recipes)
+    # Set to false to reveal only the recipe crafted
+    group: false
+  quantity:
+    # Dynamic Quantity
+    # Set to true to create potions based on the number of bottles, not the number of bottle stacks in the grid
+    # Set to false to create potions based on the number of bottle stacks
+    dynamic: true
+    # Single Recipe
+    # Set to true to enable Potion recipe with one stack of Glass Bottles
+    1: true
+    # Double Recipe
+    # Set to true to enable Potion recipe with two stacks of Glass Bottles
+    2: true
+    # Triple Recipe
+    # Set to true to enable Potion recipe with three stacks of Glass Bottles
+    3: true
+  group:
+    # Potion Type
+    # Set to true to group by potion type (e.g all recipes for Potion of Harming are grouped)
+    # Set to false to group all potions together (e.g all recipes for Potion of Healing, Harming, etc. are grouped)
+    type: true
+    # Potion
+    # Set to true to separate Potion recipes from other recipes in the recipe book (e.g Splash, Lingering)
+    # Set to false to not separate Potion (if only one is false, same function as if all are true)
+    potion: true
+    # Splash Potion
+    # Set to true to separate Splash Potion recipes from other recipes in the recipe book
+    # Set to false to not separate Splash Potion
+    splash: true
+    # Lingering Potion
+    # Set to true to separate Lingering Potion recipes from other recipes in the recipe book
+    # Set to false to not separate Lingering Potion
+    lingering: true
+    # Base Potion Type
+    # Set to true to separate Base Potion Type from other types in the recipe book (e.g Healing separate from Healing II)
+    # Set to false to not separate Base Potion Type (if only one is false, same function as if all are true)
+    base: true
+    # Upgraded Potion Type
+    # Set to true to separate Upgraded Potion Type from other types in the recipe book
+    # Set to false to not separate Upgraded Potion Type
+    upgrade: true
+    # Extended Potion Type
+    # Set to true to separate Extended Potion Type from other types in the recipe book
+    # Set to false to not separate Extended Potion Type
+    extend: true
 
 potions:
   # Bottle of Water - Glass Bottle
