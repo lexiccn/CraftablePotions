@@ -1,0 +1,268 @@
+potions:
+  # Bottle of Water - Glass Bottle
+  water:
+    enabled: false
+    potion:
+      base: false
+      upgrade: true
+      extend: true
+    # + Gunpowder
+    splash:
+      base: true
+      upgrade: true
+      extend: true
+    # + Dragon's Breath
+    lingering:
+      base: true
+      upgrade: true
+      extend: true
+  # Awkward Potion - Nether Wart + Glass Bottle
+  awkward:
+    enabled: false
+    potion:
+      base: true
+    splash:
+      base: true
+    lingering:
+      base: true
+  # Weakness Potion - Fermented Spider Eye + Glass Bottle
+  weakness:
+    enabled: true
+    potion:
+      base: true
+      extend: true
+    splash:
+      base: true
+      extend: true
+    lingering:
+      base: true
+      extend: true
+  # Healing Potion - Glistering Melon Slice + Nether Wart + Glass Bottle
+  healing:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+    splash:
+      base: true
+      upgrade: true
+    lingering:
+      base: true
+      upgrade: true
+  # Fire Resistance Potion - Magma Cream + Nether Wart + Glass Bottle
+  fire_resistance:
+    enabled: true
+    potion:
+      base: true
+      extend: true
+    splash:
+      base: true
+      extend: true
+    lingering:
+      base: true
+      extend: true
+  # Regeneration Potion - Ghast Tear + Nether Wart + Glass Bottle
+  regeneration:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+      extend: true
+    splash:
+      base: true
+      upgrade: true
+      extend: true
+    lingering:
+      base: true
+      upgrade: true
+      extend: true
+  # Strength Potion - Blaze Powder + Nether Wart + Glass Bottle
+  strength:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+      extend: true
+    splash:
+      base: true
+      upgrade: true
+      extend: true
+    lingering:
+      base: true
+      upgrade: true
+      extend: true
+  # Swiftness Potion - Sugar + Nether Wart + Glass Bottle
+  swiftness:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+      extend: true
+    splash:
+      base: true
+      upgrade: true
+      extend: true
+    lingering:
+      base: true
+      upgrade: true
+      extend: true
+  # Night Vision Potion - Golden Carrot + Nether Wart + Glass Bottle
+  night_vision:
+    enabled: true
+    potion:
+      base: true
+      extend: true
+    splash:
+      base: true
+      extend: true
+    lingering:
+      base: true
+      extend: true
+  # Water Breathing Potion - Pufferfish + Nether Wart + Glass Bottle
+  water_breathing:
+    enabled: true
+    potion:
+      base: true
+      extend: true
+    splash:
+      base: true
+      extend: true
+    lingering:
+      base: true
+      extend: true
+  # Leaping Potion - Rabbit's Foot + Nether Wart + Glass Bottle
+  leaping:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+      extend: true
+    splash:
+      base: true
+      upgrade: true
+      extend: true
+    lingering:
+      base: true
+      upgrade: true
+      extend: true
+  # Slow Falling Potion - Phantom Membrane + Nether Wart + Glass Bottle
+  slow_falling:
+    enabled: true
+    potion:
+      base: true
+      extend: true
+    splash:
+      base: true
+      extend: true
+    lingering:
+      base: true
+      extend: true
+  # Poison Potion - Spider Eye + Nether Wart + Glass Bottle
+  poison:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+      extend: true
+    splash:
+      base: true
+      upgrade: true
+      extend: true
+    lingering:
+      base: true
+      upgrade: true
+      extend: true
+  # Turtle Master Potion - Turtle Helmet + Nether Wart + Glass Bottle
+  turtle_master:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+      extend: true
+    splash:
+      base: true
+      upgrade: true
+      extend: true
+    lingering:
+      base: true
+      upgrade: true
+      extend: true
+  # Invisibility Potion - Fermented Spider Eye + Golden Carrot + Nether Wart + Glass Bottle
+  night_vision_corrupt:
+    enabled: true
+    potion:
+      base: true
+      extend: true
+    splash:
+      base: true
+      extend: true
+    lingering:
+      base: true
+      extend: true
+  # Harming Potion - Fermented Spider Eye + Glistering Melon Slice + Nether Wart + Glass Bottle
+  healing_corrupt:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+    splash:
+      base: true
+      upgrade: true
+    lingering:
+      base: true
+      upgrade: true
+  # Harming Potion - Fermented Spider Eye + Spider Eye + Nether Wart + Glass Bottle
+  poison_corrupt:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+    splash:
+      base: true
+      upgrade: true
+    lingering:
+      base: true
+      upgrade: true
+  # Slowness Potion - Fermented Spider Eye + Sugar + Nether Wart + Glass Bottle
+  swiftness_corrupt:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+      extend: true
+    splash:
+      base: true
+      upgrade: true
+      extend: true
+    lingering:
+      base: true
+      upgrade: true
+      extend: true
+  # Slowness Potion - Fermented Spider Eye + Rabbit's Foot + Nether Wart + Glass Bottle
+  leaping_corrupt:
+    enabled: true
+    potion:
+      base: true
+      upgrade: true
+      extend: true
+    splash:
+      base: true
+      upgrade: true
+      extend: true
+    lingering:
+      base: true
+      upgrade: true
+      extend: true
+  # Weakness Potion - Fermented Spider Eye + Blaze Powder + Nether Wart + Glass Bottle
+  strength_corrupt:
+    enabled: true
+    potion:
+      base: true
+      extend: true
+    splash:
+      base: true
+      extend: true
+    lingering:
+      base: true
+      extend: true
+
